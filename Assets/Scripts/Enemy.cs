@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D enemyRigidBody;
     private SpriteRenderer spriteRenderer;
 
-    private bool isLive;
+    private bool isLive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +22,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        if (!isLive)
+            return;
+
         Vector2 dirVec = (target.position - enemyRigidBody.position);
         Vector2 move = dirVec.normalized * speed * Time.fixedDeltaTime;
 
@@ -30,6 +33,8 @@ public class Enemy : MonoBehaviour
     }
     private void LateUpdate()
     {
+        if (!isLive)
+            return;
         spriteRenderer.flipX = target.position.x < 0;
     }
 }

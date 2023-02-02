@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileMapRePosition : MonoBehaviour
+public class RePosition : MonoBehaviour
 {
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -14,7 +14,7 @@ public class TileMapRePosition : MonoBehaviour
         float disX = Mathf.Abs(playerPos.x - myPos.x);
         float disY = Mathf.Abs(playerPos.y - myPos.y); 
 
-        Vector3 playerDir = GameManager.instance.player.inputVec;
+        Vector3 playerDir = GameManager.instance.player.inputVec; //player lookdir
         float dirX = playerDir.x < 0 ? -1 : 1;
         float dirY = playerDir.y < 0 ? -1 : 1;
 
