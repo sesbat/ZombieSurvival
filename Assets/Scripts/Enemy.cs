@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Enemy : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D target;
 
     private Rigidbody2D enemyRigidBody;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer; 
+
+    private IObjectPool<Enemy> managePool;
 
     private bool isLive = true;
 
@@ -36,5 +39,18 @@ public class Enemy : MonoBehaviour
         if (!isLive)
             return;
         spriteRenderer.flipX = target.position.x < 0;
+    }
+    public void OnEnable()
+    {
+        target = GameManager.instance.
+            player.GetComponent<Rigidbody2D>();
+    }
+    public void SetManagePool(IObjectPool<Enemy> pool)
+    {
+        this.managePool = pool;
+    }
+    public void DestroyEnemy()
+    {
+        managePool.Release(this);
     }
 }
