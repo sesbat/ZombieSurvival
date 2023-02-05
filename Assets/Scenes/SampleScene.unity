@@ -313,6 +313,7 @@ Transform:
   - {fileID: 60866584}
   - {fileID: 1931191815}
   - {fileID: 1909596142}
+  - {fileID: 101262467}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -431,6 +432,57 @@ Transform:
   m_Father: {fileID: 1909596142}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &101262466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 101262467}
+  - component: {fileID: 101262468}
+  m_Layer: 0
+  m_Name: Weapon 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &101262467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101262466}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 36071870}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &101262468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101262466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1c56d13efbc66459d65a052516e859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  prefabId: 0
+  damage: 11
+  count: 2
+  speed: 0
+  prefabs:
+  - {fileID: 4279208022476984588, guid: 0c77fba92fd89a54f8ca4b9676f43572, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -17809,10 +17861,27 @@ MonoBehaviour:
   - {fileID: 1841765634}
   prefabs:
   - {fileID: 6753362861997835584, guid: e420763b70753cc4c9acde9d90e8ce64, type: 3}
-  - {fileID: 9168849218687054863, guid: 3f34422cdc07b14499e769b6c1ff4f25, type: 3}
-  - {fileID: 6864507207552925968, guid: 78d2c633950b0ba40bd7b1d2af405a2e, type: 3}
-  - {fileID: 2231835303657163400, guid: 3f8187a6ead6355429fc1f8da6564829, type: 3}
-  - {fileID: 4684984482595834026, guid: 095fbc1dc0110ec4b9d763f3a18b94f0, type: 3}
+  spawnDatas:
+  - spawnTime: 1
+    spriteType: 0
+    health: 10
+    speed: 1.5
+  - spawnTime: 0.8
+    spriteType: 1
+    health: 15
+    speed: 2
+  - spawnTime: 0.6
+    spriteType: 2
+    health: 20
+    speed: 2.5
+  - spawnTime: 0.4
+    spriteType: 3
+    health: 25
+    speed: 3
+  - spawnTime: 0.2
+    spriteType: 4
+    health: 30
+    speed: 3.5
   spawnTimer: 0
 --- !u!1 &1931191814
 GameObject:

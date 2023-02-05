@@ -5,21 +5,26 @@ using UnityEngine.Pool;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed = 3f;
+    public float speed;
+    public float health;
+    public float maxHealth;
+    public RuntimeAnimatorController[] animatorControllers;
     public Rigidbody2D target;
 
     private Rigidbody2D enemyRigidBody;
-    private SpriteRenderer spriteRenderer; 
+    private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     private IObjectPool<Enemy> managePool;
 
-    private bool isLive = true;
+    private bool isLive;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         enemyRigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -44,6 +49,15 @@ public class Enemy : MonoBehaviour
     {
         target = GameManager.instance.
             player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        health = maxHealth;
+    }
+    public void Init(SpawnData data)
+    {
+        speed = data.speed;
+        maxHealth = data.health;
+        health = data.health;
+        animator.runtimeAnimatorController = animatorControllers[data.spriteType];
     }
     public void SetManagePool(IObjectPool<Enemy> pool)
     {
@@ -52,5 +66,26 @@ public class Enemy : MonoBehaviour
     public void DestroyEnemy()
     {
         managePool.Release(this);
+    }
+    
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Bullet"))
+            return;
+
+        health -= collision.GetComponent<Bullet>().damage;
+
+        if(health>0)
+        {
+
+        }
+        else
+        {
+            Dead();
+        }
+    }
+    public void Dead()
+    {
+        gameObject.SetActive(false);
     }
 }

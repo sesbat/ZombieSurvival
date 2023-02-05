@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -9,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform[] spawnPoint;
     public Enemy[] prefabs;
     private IObjectPool<Enemy>[] enemyPool;
+    public SpawnData[] spawnDatas;
 
     public float spawnTimer = 0f;
     private int level = 0;
@@ -35,13 +37,20 @@ public class EnemySpawner : MonoBehaviour
     private void Update()
     {
         spawnTimer += Time.deltaTime;
-        level = Mathf.FloorToInt(GameManager.instance.gameTime/10);
-        if(spawnTimer>0.2)
+        level = Mathf.FloorToInt(GameManager.instance.gameTime/10f);
+        if (spawnTimer > spawnDatas[level].spawnTime)
         {
-            enemyPool[Random.Range(0,prefabs.Length)].Get();
             spawnTimer = 0f;
+            SpawnEnemy();
+            //enemyPool[level].Get();
         }
 
+    }
+    public void SpawnEnemy()
+    {
+        var enemy = enemyPool[0].Get();
+        enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
+        enemy.Init(spawnDatas[level]);
     }
 
     public Enemy Get(int index)
@@ -61,4 +70,13 @@ public class EnemySpawner : MonoBehaviour
     {
         Destroy(enemy.gameObject);
     }
+
+}
+[System.Serializable]
+public class SpawnData
+{
+    public float spawnTime;
+    public int spriteType;
+    public int health;
+    public float speed;
 }
