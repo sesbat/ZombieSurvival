@@ -11,11 +11,15 @@ public class Weapon : MonoBehaviour
     public int count;
     public float speed;
 
+    private float timer;
+    private Player player;
+
     public Bullet[] prefabs;
     private IObjectPool<Bullet>[] bulletPool;
 
     private void Awake()
     {
+        player = GetComponentInParent<Player>();
         bulletPool = new IObjectPool<Bullet>[prefabs.Length];
         for (int i = 0; i < prefabs.Length; ++i)
         {
@@ -44,7 +48,19 @@ public class Weapon : MonoBehaviour
                     transform.Rotate(Vector3.forward*speed*Time.deltaTime);
                 }
                 break;
+            case 1:
+                {
+                    timer += Time.deltaTime;
+
+                    if (timer > speed)
+                    {
+                        timer = 0f;
+                        Fire();
+                    }
+                }
+                break;
             default:
+                
                 break;
         }
         if(Input.GetButtonDown("Jump"))
@@ -66,13 +82,13 @@ public class Weapon : MonoBehaviour
         {
             case 0:
                 {
-                    speed = -150;
+                    speed = 150;
                     Deployment();
                 }
                 break;
             case 1:
                 {
-
+                    speed = 0.3f;
                 }
                 break;
             case 2:
@@ -89,7 +105,15 @@ public class Weapon : MonoBehaviour
                 break;
         }
     }
-    void Deployment()
+    public void Fire()
+    {
+        if (!player.scanner.nearTarget)
+            return;
+
+        Transform bullet = bulletPool[prefabId].Get().transform;
+        bullet.parent = transform;
+    }
+    public void Deployment()
     {
         for(int index =0; index<count; index++)
         {
