@@ -5,12 +5,6 @@ using UnityEngine.Pool;
 
 public class Weapon : MonoBehaviour
 {
-    public int id;
-    public int prefabId;
-    public float damage;
-    public int count;
-    public float speed;
-
     private float timer;
     private Player player;
 
@@ -41,68 +35,78 @@ public class Weapon : MonoBehaviour
     }
     private void Update()
     {
-        switch (id)
+        foreach (var bullet in prefabs)
         {
-            case 0:
-                {
-                    transform.Rotate(Vector3.forward*speed*Time.deltaTime);
-                }
-                break;
-            case 1:
-                {
-                    timer += Time.deltaTime;
-
-                    if (timer > speed)
+            switch (bullet.id)
+            {
+                case 0:
                     {
-                        timer = 0f;
-                        Fire();
+                        transform.Rotate(Vector3.forward * bullet.speed * Time.deltaTime);
                     }
-                }
-                break;
-            default:
-                
-                break;
-        }
-        if(Input.GetButtonDown("Jump"))
-        {
-            LevelUp(20, 5);
+                    break;
+                case 1:
+                    {
+                        timer += Time.deltaTime;
+
+                        if (timer > bullet.speed)
+                        {
+                            timer = 0f;
+                            Fire();
+                        }
+                    }
+                    break;
+                default:
+
+                    break;
+                   
+            }
+            if (Input.GetButtonDown("Jump"))
+            {
+                LevelUp(20, 5);
+            }
         }
     }
     public void LevelUp(float damage, int count)
     {
-        this.damage = damage;
-        this.count += count;
+        foreach (var bullet in prefabs)
+        {
+            bullet.damage = damage;
+            bullet.count += count;
 
-        if (id == 0)
-            Deployment();
+            if (bullet.id == 0)
+                Deployment();
+        }
     }
     public void Init()
     {
-        switch(id)
+        foreach (var bullet in prefabs)
         {
-            case 0:
-                {
-                    speed = 150;
-                    Deployment();
-                }
-                break;
-            case 1:
-                {
-                    speed = 0.3f;
-                }
-                break;
-            case 2:
-                {
+            switch (bullet.id)
+            {
+                case 0:
+                    {
+                        bullet.speed = 150;
+                        Deployment();
+                    }
+                    break;
+                case 1:
+                    {
+                        bullet.speed = 0.3f;
+                    }
+                    break;
+                case 2:
+                    {
 
-                }
-                break;
-            case 3:
-                {
+                    }
+                    break;
+                case 3:
+                    {
 
-                }
-                break;
-            default:
-                break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
     public void Fire()
@@ -110,12 +114,17 @@ public class Weapon : MonoBehaviour
         if (!player.scanner.nearTarget)
             return;
 
-        Transform bullet = bulletPool[prefabId].Get().transform;
-        bullet.parent = transform;
+        Vector3 position = player.scanner.nearTarget.position;
+        Vector3 dir = (position - transform.position).normalized;
+
+        Transform bullet = bulletPool[prefabs[1].prefabId].Get().transform;
+        bullet.position = transform.position;
+        bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        bullet.GetComponent<Bullet>().Init(prefabs[1].damage, prefabs[1].count, dir);
     }
     public void Deployment()
     {
-        for(int index =0; index<count; index++)
+        for(int index =0; index<prefabs[0].count; index++)
         {
             Transform bullet;
             if (index<transform.childCount)
@@ -124,16 +133,16 @@ public class Weapon : MonoBehaviour
             }
             else
             {
-                bullet = bulletPool[prefabId].Get().transform;
+                bullet = bulletPool[prefabs[0].prefabId].Get().transform;
                 bullet.parent = transform;
             }
             bullet.localPosition = Vector3.zero;
             bullet.localRotation = Quaternion.identity;
 
-            Vector3 rotateVec = Vector3.forward * 360 * index / count;
+            Vector3 rotateVec = Vector3.forward * 360 * index / prefabs[0].count;
             bullet.Rotate(rotateVec);
             bullet.Translate(bullet.up*1.5f,Space.World);
-            bullet.GetComponent<Bullet>().Init(damage,-1); // -1 = infinity per
+            bullet.GetComponent<Bullet>().Init(prefabs[0].damage, -1,Vector3.zero); // -1 = infinity per
         }
     }
     public Bullet Get(int index)

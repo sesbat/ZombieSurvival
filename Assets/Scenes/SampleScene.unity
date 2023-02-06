@@ -315,7 +315,7 @@ Transform:
   - {fileID: 60866584}
   - {fileID: 1931191815}
   - {fileID: 1909596142}
-  - {fileID: 789400333}
+  - {fileID: 101262467}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -462,7 +462,7 @@ GameObject:
   - component: {fileID: 101262467}
   - component: {fileID: 101262468}
   m_Layer: 0
-  m_Name: Weapon 0
+  m_Name: WeaponControll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -476,12 +476,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 101262466}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.3760393, y: -1.5454662, z: 0.09494069}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 789400333}
-  m_RootOrder: 0
+  m_Father: {fileID: 36071870}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &101262468
 MonoBehaviour:
@@ -495,11 +495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed1c56d13efbc66459d65a052516e859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
-  prefabId: 0
-  damage: 11
-  count: 2
-  speed: 0
   prefabs:
   - {fileID: 4279208022476984588, guid: 0c77fba92fd89a54f8ca4b9676f43572, type: 3}
   - {fileID: 2876645747669551014, guid: 2e26c9f53e162674dad4867fd1a662f7, type: 3}
@@ -602,7 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AssetsPPU: 18
-  m_RefResolutionX: 180
+  m_RefResolutionX: 320
   m_RefResolutionY: 126
   m_UpscaleRT: 0
   m_PixelSnapping: 0
@@ -4888,38 +4883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917f8eb8da03079449506c9401f77f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &789400332
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 789400333}
-  m_Layer: 0
-  m_Name: WeaponController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &789400333
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789400332}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3760393, y: 1.5454662, z: -0.09494069}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 101262467}
-  m_Father: {fileID: 36071870}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &867144876
 GameObject:
   m_ObjectHideFlags: 0
@@ -18023,6 +17986,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 36071868}
+  level: 0
+  kill: 0
+  exp: 0
   maxGameTime: 20
   gameTime: 0
 --- !u!4 &2028981870

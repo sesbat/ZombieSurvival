@@ -9,9 +9,11 @@ public class Enemy : MonoBehaviour
     public float health;
     public float maxHealth;
     public RuntimeAnimatorController[] animatorControllers;
+    public float hitKnockBack;
     public Rigidbody2D target;
 
     private Rigidbody2D enemyRigidBody;
+    private Collider2D enemyCol;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
@@ -25,12 +27,13 @@ public class Enemy : MonoBehaviour
         enemyRigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        enemyCol = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (!isLive)
+        if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             return;
 
         Vector2 dirVec = (target.position - enemyRigidBody.position);
@@ -50,6 +53,10 @@ public class Enemy : MonoBehaviour
         target = GameManager.instance.
             player.GetComponent<Rigidbody2D>();
         isLive = true;
+        enemyCol.enabled = true;
+        enemyRigidBody.simulated = true;
+        spriteRenderer.sortingOrder = 2;
+        animator.SetBool("Dead", false);
         health = maxHealth;
     }
     public void Init(SpawnData data)
@@ -70,19 +77,36 @@ public class Enemy : MonoBehaviour
     
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet"))
+        if (!collision.CompareTag("Bullet")||!isLive)
             return;
+
+        StartCoroutine(KnockBack());
 
         health -= collision.GetComponent<Bullet>().damage;
 
         if(health>0)
         {
-
+            animator.SetTrigger("Hit");
         }
         else
         {
-            Dead();
+            enemyRigidBody.simulated = false;
+            enemyCol.enabled = false;
+            isLive = false;
+            spriteRenderer.sortingOrder = 1;
+            animator.SetBool("Dead", true);
+            GameManager.instance.kill++;
+            GameManager.instance.GetExp();
         }
+    }
+    private IEnumerator KnockBack()
+    {
+        yield return new WaitForFixedUpdate();
+
+
+        Vector3 playerPos = GameManager.instance.player.transform.position;
+        Vector3 hitVec = (transform.position - playerPos).normalized;
+        enemyRigidBody.AddForce(hitVec * 3f,ForceMode2D.Force);
     }
     public void Dead()
     {
