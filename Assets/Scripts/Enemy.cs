@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float health;
     public float maxHealth;
+    public float damage;
     public RuntimeAnimatorController[] animatorControllers;
     public float hitKnockBack;
     public Rigidbody2D target;
@@ -64,6 +65,7 @@ public class Enemy : MonoBehaviour
         speed = data.speed;
         maxHealth = data.health;
         health = data.health;
+        damage = data.damage;
         animator.runtimeAnimatorController = animatorControllers[data.spriteType];
     }
     public void SetManagePool(IObjectPool<Enemy> pool)
