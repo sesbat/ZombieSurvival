@@ -17,29 +17,37 @@ public class GameManager : MonoBehaviour
     private int[] nextExp = {3,5,10,100,150,210,280,360,450,600};
 
     [Header("GameControll")]
-    public float maxGameTime = 20f;
-    public float gameTime = 0f;
+    public int maxGameTime = 20;
+    public float gameSec = 0f;
+    public int gameMin = 0;
 
     [Header("UI")]
     public TextMeshProUGUI killScoreText;
     public TextMeshProUGUI levelText;
+    public TextMeshProUGUI gameTimeText;
 
     private void Awake()
     {
         expBar.value = 0;
-        gameTime = 0f;
+        gameSec = 0f;
         instance = this;
     }
     private void Update()
     {
-        gameTime += Time.deltaTime;
-        if(gameTime > maxGameTime)
+        gameSec += Time.deltaTime;
+        if(gameMin > maxGameTime)
         {
-            gameTime = maxGameTime;
+            gameMin = maxGameTime;
         }
         killScoreText.text = $"{kill}";
         levelText.text = "Level : "+ $"{level}";
-        
+        gameTimeText.text = string.Format("{0:D2} : {1:D2}", gameMin, (int)gameSec);
+        if((int)gameSec>59)
+        {
+            gameSec = 0f;
+            gameMin++;
+        }
+
         if(!player.enabled)
         {
             Time.timeScale = 0f;

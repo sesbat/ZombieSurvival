@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     private PlayerInput playerInput;
     private Rigidbody2D playerRigidBody;
-    private Collider2D playerCollider;
+    private CapsuleCollider2D playerCollider;
     private SpriteRenderer spriteRenderer;
     private Animator playerAnimator;
 
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
         scanner = GetComponent<Scanner>();
-        playerCollider = GetComponent<Collider2D>();
+        playerCollider = GetComponent<CapsuleCollider2D>();
     }
     private void OnEnable()
     {
@@ -36,19 +36,10 @@ public class Player : MonoBehaviour
         hp = maxHp;
         hpBar.value = hp / maxHp;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Enemy"))
-            return;
-
-        if (hp > 0)
-        {
-            hp-=collision.GetComponent<Enemy>().damage;
-        }
-        else
-        {
-            playerAnimator.SetTrigger("Dead");
-        }
+        
     }
     private void Update()
     {

@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
     private void Update()
     {
         spawnTimer += Time.deltaTime;
-        level = Mathf.FloorToInt(GameManager.instance.gameTime/10f);
+        level = Mathf.FloorToInt(GameManager.instance.gameSec/10f);
         if (spawnTimer > spawnDatas[level].spawnTime)
         {
             spawnTimer = 0f;
