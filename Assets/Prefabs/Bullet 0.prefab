@@ -128,5 +128,5 @@ MonoBehaviour:
   prefabId: 0
   count: 2
   speed: 150
-  damage: 20
+  damage: 1
   per: 0

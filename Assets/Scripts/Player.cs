@@ -36,11 +36,14 @@ public class Player : MonoBehaviour
         hp = maxHp;
         hpBar.value = hp / maxHp;
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (!collision.collider.CompareTag("Enemy"))
+            return;
+        hp -= collision.transform.GetComponent<Enemy>().damage;
+
     }
+
     private void Update()
     {
         hpBar.value = hp / maxHp;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     private int[] nextExp = {3,5,10,100,150,210,280,360,450,600};
 
     [Header("GameControll")]
-    public int maxGameTime = 20;
+    public int maxGameTime = 1;
     public float gameSec = 0f;
     public int gameMin = 0;
 
@@ -26,11 +27,19 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI gameTimeText;
 
+    [Header("GameOver")]
+    public Button gameOverBtn;
+    public Image gameOver;
+    public Image clear;
+
     private void Awake()
     {
         expBar.value = 0;
         gameSec = 0f;
         instance = this;
+        gameOverBtn.gameObject.SetActive(false);
+        gameOver.gameObject.SetActive(false);
+        clear.gameObject.SetActive(false);
     }
     private void Update()
     {
@@ -48,9 +57,9 @@ public class GameManager : MonoBehaviour
             gameMin++;
         }
 
-        if(!player.enabled)
+        if(player.hp<0f||gameMin>=maxGameTime)
         {
-            Time.timeScale = 0f;
+            GameEnd();
         }
     }
     public void GetExp()
@@ -62,5 +71,22 @@ public class GameManager : MonoBehaviour
             exp = 0;
         }
         expBar.value = (float)exp / (float)nextExp[level];
+    }
+    public void GameEnd()
+    {
+        if(gameMin >= maxGameTime)
+        {
+            clear.gameObject.SetActive(true);
+        }
+        else
+        {
+            gameOver.gameObject.SetActive(true);
+        }
+        gameOverBtn.gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene("Title");
     }
 }

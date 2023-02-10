@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class EnemyReposition : MonoBehaviour
 {
-    private void Awake()
-    {
-    }
     private void LateUpdate()
     {
         var pInputVec = GameManager.instance.player.inputVec;
